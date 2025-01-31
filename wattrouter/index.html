@@ -7,66 +7,103 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            color: #333;
-            background: #005F6A;
             display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            padding-top: 20px;
-            height: 100vh;
-            margin: 0;
+            flex-direction: column;
+            align-items: center;
+            background-color: #f4f4f4;
         }
-        .container {
+        .titulek, .prehled, .okruhy, .prikazy {
+            width: 80%;
+            margin: 10px;
+            padding: 10px;
+            border: 2px solid blue;
             text-align: center;
-            padding: 15px;
-            max-width: 300px;
-            border: 2px dashed #ccc;
+        }
+        .modul {
+            border: 2px solid red;
+            padding: 10px;
+            margin: 5px;
+            display: inline-block;
+        }
+        .okruh, .prikaz {
+            border: 2px solid red;
+            padding: 10px;
+            margin: 5px;
+        }
+        .button {
+            display: inline-block;
+            margin: 5px;
+            padding: 10px;
             border-radius: 10px;
-            background: #ffffff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border: 2px solid purple;
+            cursor: pointer;
         }
-        h1 {
-            font-size: 2rem;
-            color: #e67e22;
-        }
-        p {
-            font-size: 1.2rem;
-        }
-        .radek {
-            background: #566aba;
-        }
-        .radecek {
-            background: #aea5c4;
+        .ws-data {
+            color: purple;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <table>
-      <tr class="radek">
-        <th>Fotovoltaika</th>
-        <th>Měnič</th>
-        <th>DS</th>
-        <th>Akumulace</th>
-      </tr>
-      <tr>
-        <td>3698 W</td>
-        <td>1547 W</td>
-        <td>105 W</td>
-        <td>1269 W</td>
-      </tr>
-      <tr class="radecek">
-        <td>240 V</td>
-        <td>241 V</td>
-        <td>239 V</td>
-        <td>52.1 V</td>
-      </tr>
-      <tr>
-      <td>26.2 A</td>
-      <td>10.5 A</td>
-      <td>2.4 A</td>
-      <td>55.9 A</td>
-    </table>
+    <div class="titulek">
+        <h1>Wattrouter</h1>
+        <p>Stav: <span class="ws-data">OK</span> | Mód: <span class="ws-data">Stock</span></p>
+    </div>
+    
+    <div class="prehled">
+        <h2>Přehled</h2>
+        <div class="modul">
+            <h3>Fotovoltaika</h3>
+            <p>Stav: <span class="ws-data">Tma</span></p>
+            <p>Výkon: <span class="ws-data">0 W</span></p>
         </div>
+        <div class="modul">
+            <h3>DS</h3>
+            <p>Stav: <span class="ws-data">Tarif</span></p>
+            <p>Výkon: <span class="ws-data">0 W</span></p>
+        </div>
+        <div class="modul">
+            <h3>Baterie</h3>
+            <p>Stav: <span class="ws-data">50%</span></p>
+            <p>Výkon: <span class="ws-data">0 W</span></p>
+        </div>
+    </div>
+    
+    <div class="okruhy">
+        <h2>Okruhy</h2>
+        <div class="okruh">1. Kuchyň | <span class="ws-data">55 W</span> 
+            <span class="button">OFF</span>
+            <span class="button">FV</span>
+            <span class="button">DS</span>
+            <span class="button">Boost</span>
+        </div>
+        <div class="okruh">2. Klima | <span class="ws-data">580 W</span>
+            <span class="button">OFF</span>
+            <span class="button">FV</span>
+            <span class="button">DS</span>
+            <span class="button">Boost</span>
+        </div>
+        <div class="okruh">3. Koupelna | <span class="ws-data">20 W</span>
+            <span class="button">OFF</span>
+            <span class="button">FV</span>
+            <span class="button">DS</span>
+            <span class="button">Boost</span>
+        </div>
+        <div class="okruh">4. Boiler | <span class="ws-data">1500 W</span>
+            <span class="button">OFF</span>
+            <span class="button">FV</span>
+            <span class="button">DS</span>
+            <span class="button">Boost</span>
+        </div>
+    </div>
+    
+    <div class="prikazy">
+        <h2>Příkazy</h2>
+        <div class="prikaz">AUTO <span class="button">ℹ</span></div>
+        <div class="prikaz">Zásobuj <span class="button">ℹ</span></div>
+        <div class="prikaz">Odpoj DS <span class="button">ℹ</span></div>
+        <div class="prikaz">TARIFUJ <span class="button">ℹ</span></div>
+        <div class="prikaz">Odpoj FV <span class="button">ℹ</span></div>
+        <div class="prikaz">OFF <span class="button">ℹ</span></div>
+    </div>
 </body>
 </html>
