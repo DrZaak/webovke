@@ -5,105 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wattrouter</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background-color: #f4f4f4;
-        }
-        .titulek, .prehled, .okruhy, .prikazy {
-            width: 80%;
-            margin: 10px;
-            padding: 10px;
-            border: 2px solid blue;
+        .info-icon {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            background-color: orange;
             text-align: center;
-        }
-        .modul {
-            border: 2px solid red;
-            padding: 10px;
-            margin: 5px;
-            display: inline-block;
-        }
-        .okruh, .prikaz {
-            border: 2px solid red;
-            padding: 10px;
-            margin: 5px;
-        }
-        .button {
-            display: inline-block;
-            margin: 5px;
-            padding: 10px;
-            border-radius: 10px;
-            border: 2px solid purple;
+            border-radius: 50%;
+            font-weight: bold;
             cursor: pointer;
+            position: relative;
         }
-        .ws-data {
-            color: purple;
+        .info-icon:hover .tooltip {
+            display: block;
+        }
+        .tooltip {
+            display: none;
+            position: absolute;
+            background-color: #333;
+            color: #fff;
+            padding: 5px;
+            border-radius: 5px;
+            left: 25px;
+            top: 0;
+            white-space: nowrap;
         }
     </style>
 </head>
 <body>
     <div class="titulek">
         <h1>Wattrouter</h1>
-        <p>Stav: <span class="ws-data">OK</span> | Mód: <span class="ws-data">Stock</span></p>
+        <p>Stav: <span class="ws-data">OK</span> Mód: <span class="ws-data">Stock</span></p>
     </div>
-    
     <div class="prehled">
         <h2>Přehled</h2>
         <div class="modul">
             <h3>Fotovoltaika</h3>
             <p>Stav: <span class="ws-data">Tma</span></p>
             <p>Výkon: <span class="ws-data">0 W</span></p>
+            <p>A: <span class="ws-data">0.0</span></p>
+            <p>V: <span class="ws-data">0.0</span></p>
         </div>
         <div class="modul">
             <h3>DS</h3>
             <p>Stav: <span class="ws-data">Tarif</span></p>
             <p>Výkon: <span class="ws-data">0 W</span></p>
+            <p>A: <span class="ws-data">0.0</span></p>
+            <p>V: <span class="ws-data">0.0</span></p>
         </div>
         <div class="modul">
             <h3>Baterie</h3>
             <p>Stav: <span class="ws-data">50%</span></p>
             <p>Výkon: <span class="ws-data">0 W</span></p>
+            <p>A: <span class="ws-data">0.0</span></p>
+            <p>V: <span class="ws-data">0.0</span></p>
         </div>
     </div>
-    
     <div class="okruhy">
         <h2>Okruhy</h2>
-        <div class="okruh">1. Kuchyň | <span class="ws-data">55 W</span> 
-            <span class="button">OFF</span>
-            <span class="button">FV</span>
-            <span class="button">DS</span>
-            <span class="button">Boost</span>
+        <div class="okruh">
+            <p>1. Kuchyň | <span class="ws-data">55 W</span></p>
+            <button>OFF</button><button>FV</button><button>DS</button><button>Boost</button>
         </div>
-        <div class="okruh">2. Klima | <span class="ws-data">580 W</span>
-            <span class="button">OFF</span>
-            <span class="button">FV</span>
-            <span class="button">DS</span>
-            <span class="button">Boost</span>
-        </div>
-        <div class="okruh">3. Koupelna | <span class="ws-data">20 W</span>
-            <span class="button">OFF</span>
-            <span class="button">FV</span>
-            <span class="button">DS</span>
-            <span class="button">Boost</span>
-        </div>
-        <div class="okruh">4. Boiler | <span class="ws-data">1500 W</span>
-            <span class="button">OFF</span>
-            <span class="button">FV</span>
-            <span class="button">DS</span>
-            <span class="button">Boost</span>
+        <div class="okruh">
+            <p>2. Klima | <span class="ws-data">580 W</span></p>
+            <button>OFF</button><button>FV</button><button>DS</button><button>Boost</button>
         </div>
     </div>
-    
     <div class="prikazy">
         <h2>Příkazy</h2>
-        <div class="prikaz">AUTO <span class="button">ℹ</span></div>
-        <div class="prikaz">Zásobuj <span class="button">ℹ</span></div>
-        <div class="prikaz">Odpoj DS <span class="button">ℹ</span></div>
-        <div class="prikaz">TARIFUJ <span class="button">ℹ</span></div>
-        <div class="prikaz">Odpoj FV <span class="button">ℹ</span></div>
-        <div class="prikaz">OFF <span class="button">ℹ</span></div>
+        <div class="modul">
+            <button>AUTO</button>
+            <span class="info-icon">!
+                <span class="tooltip">Info o AUTO</span>
+            </span>
+        </div>
+        <div class="modul">
+            <button>Zásobuj</button>
+            <span class="info-icon">!
+                <span class="tooltip">Info o Zásobuj</span>
+            </span>
+        </div>
+        <div class="modul">
+            <button>Odpoj DS</button>
+            <span class="info-icon">!
+                <span class="tooltip">Info o Odpoj DS</span>
+            </span>
+        </div>
+        <div class="modul">
+            <button>TARIFUJ</button>
+            <span class="info-icon">!
+                <span class="tooltip">Info o TARIFUJ</span>
+            </span>
+        </div>
+        <div class="modul">
+            <button>Odpoj FV</button>
+            <span class="info-icon">!
+                <span class="tooltip">Info o Odpoj FV</span>
+            </span>
+        </div>
+        <div class="modul">
+            <button>OFF</button>
+            <span class="info-icon">!
+                <span class="tooltip">Info o OFF</span>
+            </span>
+        </div>
     </div>
 </body>
 </html>
