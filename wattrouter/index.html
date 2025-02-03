@@ -37,7 +37,13 @@
             top: 0;
             white-space: normal;
             max-width: 500px; /* Maximální šířka tooltipu */
-            word-wrap: break-word; /* Zalomení slov, pokud je třeba */
+            word-wrap: normal; /* Zalomení slov, pokud je třeba */
+            overflow-wrap: break-word;
+            transition: background-color 0.3s ease;
+        }
+
+        .tooltip:hover {
+            background-color: #00afc3;
         }
         .section-title {
             padding-bottom: 5px;
@@ -58,6 +64,7 @@
             margin-bottom: 10px;
             border: 3px solid #0099ab;
             border-radius: 10px;
+            padding: 0px 15px;
         }
 
         .okruh {
