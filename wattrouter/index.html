@@ -54,11 +54,19 @@
             flex: 1;
             min-width: 300px;
         }
-        .modul, .okruh {
+        .modul {
             margin-bottom: 10px;
             border-color: #00bed4; 
             border-width: 3px;
             border-radius: 10px;
+
+        .okruh {
+            margin-bottom: 10px;
+            border-color: #00bed4; 
+            border-width: 3px;
+            border-radius: 10px;
+            gap: 10px;
+            font-size: 120%;
 
         }
         .tlacitko {
@@ -68,37 +76,42 @@
             border: 1px solid black; /* Okraj */
             background-color: lightgray; /* Barva pozadí */
             cursor: pointer; /* Změna kurzoru na ukazatel */
+            margin-left: 5px;
+        }
+
+        .slim {
+            margin: 15px 5px;
         }
     </style>
 </head>
 <body>
     <div class="titulek section-title">
         <h1>Wattrouter</h1>
-        <p>Stav: <span class="ws-data" id="router-status">OK</span> Mód: <span class="ws-data" id="router-mode">Stock</span></p>
+        <p style="margin: 0px;">Stav: <span class="ws-data" id="router-status">OK</span> Mód: <span class="ws-data" id="router-mode">Stock</span></p>
     </div>
     <div class="container">
         <div class="prehled">
             <h2 class="section-title">Přehled</h2>
             <div class="modul">
                 <h3>Fotovoltaika</h3>
-                <p>Stav: <span class="ws-data" id="fv-status">Tma</span></p>
-                <p>Výkon: <span class="ws-data" id="fv-watt">0 W</span></p>
-                <p>A: <span class="ws-data" id="fv-amp">0.0</span></p>
-                <p>V: <span class="ws-data" id="fv-volt">0.0</span></p>
+                <p class="slim">Stav: <span class="ws-data" id="fv-status">Tma</span></p>
+                <p class="slim">Výkon: <span class="ws-data" id="fv-watt">0 W</span></p>
+                <p class="slim">A: <span class="ws-data" id="fv-amp">0.0</span></p>
+                <p class="slim">V: <span class="ws-data" id="fv-volt">0.0</span></p>
             </div>
             <div class="modul">
                 <h3>DS</h3>
-                <p>Stav: <span class="ws-data" id="ds-status">Tarif</span></p>
-                <p>Výkon: <span class="ws-data" id="ds-watt">0 W</span></p>
-                <p>A: <span class="ws-data" id="ds-amp">0.0</span></p>
-                <p>V: <span class="ws-data" id="ds-volt">0.0</span></p>
+                <p class="slim">Stav: <span class="ws-data" id="ds-status">Tarif</span></p>
+                <p class="slim">Výkon: <span class="ws-data" id="ds-watt">0 W</span></p>
+                <p class="slim">A: <span class="ws-data" id="ds-amp">0.0</span></p>
+                <p class="slim">V: <span class="ws-data" id="ds-volt">0.0</span></p>
             </div>
             <div class="modul">
                 <h3>Baterie</h3>
-                <p>Stav: <span class="ws-data" id="bat-status">50%</span></p>
-                <p>Výkon: <span class="ws-data" id="bat-watt">0 W</span></p>
-                <p>A: <span class="ws-data" id="bat-amp">0.0</span></p>
-                <p>V: <span class="ws-data" id="bat-volt">0.0</span></p>
+                <p class="slim">Stav: <span class="ws-data" id="bat-status">50%</span></p>
+                <p class="slim">Výkon: <span class="ws-data" id="bat-watt">0 W</span></p>
+                <p class="slim">A: <span class="ws-data" id="bat-amp">0.0</span></p>
+                <p class="slim">V: <span class="ws-data" id="bat-volt">0.0</span></p>
             </div>
         </div>
         <div class="okruhy">
