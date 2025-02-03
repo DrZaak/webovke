@@ -22,9 +22,11 @@
             font-weight: bold;
             cursor: pointer;
             position: relative;
+            transition: background-color 0.3s ease;
         }
         .info-icon:hover .tooltip {
             display: block;
+            background-color: #00e2fc;
         }
         .tooltip {
             display: none;
@@ -36,14 +38,12 @@
             left: 25px;
             top: 0;
             white-space: normal;
-            max-width: 500px; /* Maximální šířka tooltipu */
+            min-width: 250px; /* Minimální šířka tooltipu */
+            max-width: 75vw; /* Maximální šířka až 90 % obrazovky */
+            width: auto; /* Automatická šířka dle obsahu */
             word-wrap: normal; /* Zalomení slov, pokud je třeba */
             overflow-wrap: break-word;
-            transition: background-color 0.3s ease;
-        }
-
-        .tooltip:hover {
-            background-color: #00afc3;
+            z-index: 1000;
         }
         .section-title {
             padding-bottom: 5px;
