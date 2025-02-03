@@ -129,55 +129,55 @@
             <h2 class="section-title">Okruhy</h2>
             <div class="okruh">
                 <h3>1. Kuchyň | <span class="ws-data" id="kuchyn-watt">55</span> W</h3>
-                <button class="tlacitko">OFF</button><button class="tlacitko">FV</button class="tlacitko"><button class="tlacitko">DS</button><button class="tlacitko">Boost</button>
+                <button class="tlacitko" id="kuchyn-push-off">OFF</button><button class="tlacitko" id="kuchyn-push-fv">FV</button><button class="tlacitko" id="kuchyn-push-ds">DS</button><button class="tlacitko" id="kuchyn-push-boost">Boost</button>
             </div>
             <div class="okruh">
                 <h3>2. Klima | <span class="ws-data" id="klima-watt">580</span> W</h3>
-                <button class="tlacitko">OFF</button><button class="tlacitko">FV</button class="tlacitko"><button class="tlacitko">DS</button><button class="tlacitko">Boost</button>
+                <button class="tlacitko" id="klima-push-off">OFF</button><button class="tlacitko" id="klima-push-fv">FV</button><button class="tlacitko" id="klima-push-ds">DS</button><button class="tlacitko" id="klima-push-boost">Boost</button>
             </div>
             <div class="okruh">
                 <h3>3. Koupelna | <span class="ws-data" id="koupelna-watt">700</span> W</h3>
-                <button class="tlacitko">OFF</button><button class="tlacitko">FV</button><button class="tlacitko">DS</button><button class="tlacitko">Boost</button>
+                <button class="tlacitko" id="koupelna-push-off">OFF</button><button class="tlacitko" id="koupelna-push-fv">FV</button><button class="tlacitko" id="koupelna-push-ds">DS</button><button class="tlacitko" id="koupelna-push-boost">Boost</button>
             </div>
             <div class="okruh">
                 <h3>4. Boiler | <span class="ws-data" id="boiler-watt">6972</span> W</h3>
-                <button class="tlacitko">OFF</button><button class="tlacitko">FV</button><button class="tlacitko">DS</button><button class="tlacitko">Boost</button>
+                <button class="tlacitko" id="boiler-push-off">OFF</button><button class="tlacitko" id="boiler-push-fv">FV</button><button class="tlacitko" id="boiler-push-ds">DS</button><button class="tlacitko" id="boiler-push-boost">Boost</button>
             </div>
         </div>
         <div class="prikazy">
             <h2 class="section-title">Příkazy</h2>
             <div class="prikaz">
-                <button class="tlacitko">AUTO</button>
+                <button class="tlacitko" id="push-auto">AUTO</button>
                 <span class="info-icon">i
                     <span class="tooltip">Automatická správa spotřeby, maximální využití FVe - plný výkon Solar + docuc z DS/Baterie</span>
                 </span>
             </div>
             <div class="prikaz">
-                <button class="tlacitko">Zásobuj</button>
+                <button class="tlacitko" id="push-zasobuj">Zásobuj</button>
                 <span class="info-icon">i
                     <span class="tooltip">Prioritně využije výkon FVe pro nabití baterie - veškerá spotřeba na DS, dokud není baterie na 100%</span>
                 </span>
             </div>
             <div class="prikaz">
-                <button class="tlacitko">Nepoužívej DS</button>
+                <button class="tlacitko" id="push-nepouzivejds">Nepoužívej DS</button>
                 <span class="info-icon">i
                     <span class="tooltip">Až do vybití baterie je veškerá spotřeba brána z FVe, baterie + možný docuc měniče z DS</span>
                 </span>
             </div>
             <div class="prikaz">
-                <button class="tlacitko">TARIFUJ</button>
+                <button class="tlacitko" id="push-tarifuj">Tarifuj</button>
                 <span class="info-icon">i
                     <span class="tooltip">Pokud je nízký tarif, veškerá spotřeba jde z DS, FVe nabíjí baterii</span>
                 </span>
             </div>
             <div class="prikaz">
-                <button class="tlacitko">Odpoj FV</button>
+                <button class="tlacitko" id="push-odpojfv">Odpoj FV</button>
                 <span class="info-icon">i
                     <span class="tooltip">Odpojovač mechanicky odpojí FVe</span>
                 </span>
             </div>
             <div class="prikaz">
-                <button class="tlacitko">OFF</button>
+                <button class="tlacitko" id="push-off">OFF</button>
                 <span class="info-icon">i
                     <span class="tooltip">Vypne všechny okruhy</span>
                 </span>
