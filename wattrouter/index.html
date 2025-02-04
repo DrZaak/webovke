@@ -184,5 +184,78 @@
             </div>
         </div>
     </div>
+    <script>
+    const ESP_IP = "ws://192.168.1.100:81"; // Sem dáš IP ESP32 (změníme později)
+    let socket = new WebSocket(ESP_IP);
+    
+    // Připojení k WebSocket serveru
+    socket.onopen = function() {
+        console.log("✅ WebSocket připojen!");
+    };
+    
+    // Přijetí zprávy (ESP32 posílá aktualizace hodnot)
+    socket.onmessage = function(event) {
+    let data = JSON.parse(event.data); // Předpokládáme JSON odpověď
+
+    // Aktualizace hodnot na stránce
+    document.getElementById("router-status").textContent = data.router_status;
+    document.getElementById("router-mode").textContent = data.router_mode;
+
+    document.getElementById("fv-status").textContent = data.fv_status;
+    document.getElementById("fv-watt").textContent = data.fv_watt + " W";
+    document.getElementById("fv-amp").textContent = data.fv_amp + " A";
+    document.getElementById("fv-volt").textContent = data.fv_volt + " V";
+
+    document.getElementById("ds-status").textContent = data.ds_status;
+    document.getElementById("ds-watt").textContent = data.ds_watt + " W";
+    document.getElementById("ds-amp").textContent = data.ds_amp + " A";
+    document.getElementById("ds-volt").textContent = data.ds_volt + " V";
+
+    document.getElementById("bat-status").textContent = data.bat_status;
+    document.getElementById("bat-watt").textContent = data.bat_watt + " W";
+    document.getElementById("bat-amp").textContent = data.bat_amp + " A";
+    document.getElementById("bat-volt").textContent = data.bat_volt + " V";
+};
+
+// Ošetření chyb
+socket.onerror = function(error) {
+    console.error("❌ WebSocket error:", error);
+};
+
+// Odpojení
+socket.onclose = function() {
+    console.log("⚠️ WebSocket odpojen. Zkouším znovu...");
+    setTimeout(() => {
+        socket = new WebSocket(ESP_IP);
+    }, 3000);
+};
+
+// Odeslání příkazu po kliknutí na tlačítko
+function sendCommand(command) {
+    if (socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify({ command: command }));
+        console.log("📤 Odesláno:", command);
+    } else {
+        console.warn("⚠️ WebSocket není připojen.");
+    }
+}
+
+// Přiřazení funkcí tlačítkům
+document.getElementById("push-auto").onclick = () => sendCommand("AUTO");
+document.getElementById("push-zasobuj").onclick = () => sendCommand("ZASOBUJ");
+document.getElementById("push-nepouzivejds").onclick = () => sendCommand("NEPOUZIVEJ_DS");
+document.getElementById("push-tarifuj").onclick = () => sendCommand("TARIFUJ");
+document.getElementById("push-odpojfv").onclick = () => sendCommand("ODPOJ_FV");
+document.getElementById("push-off").onclick = () => sendCommand("OFF");
+
+document.getElementById("kuchyn-push-off").onclick = () => sendCommand("KUCHYN_OFF");
+document.getElementById("kuchyn-push-fv").onclick = () => sendCommand("KUCHYN_FV");
+document.getElementById("kuchyn-push-ds").onclick = () => sendCommand("KUCHYN_DS");
+document.getElementById("kuchyn-push-boost").onclick = () => sendCommand("KUCHYN_BOOST");
+
+// Sem můžeš přidat další tlačítka pro ostatní okruhy...
+
+</script>
+
 </body>
 </html>
