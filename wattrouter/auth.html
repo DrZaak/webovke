@@ -112,10 +112,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
     <script>
-        let socket;
-
         document.addEventListener("DOMContentLoaded", () => {
-            socket = new WebSocket("ws://" + window.location.hostname + ":81");
+            let websocketAddress = window.location.hostname;
+            let socket = new WebSocket("ws://" + websocketAddress + ":81") || undefined;
 
             socket.onopen = () => {
                 console.log("🟢 WebSocket připojen.");
@@ -177,6 +176,5 @@
             }
         });
     </script>
-
 </body>
 </html>
