@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Přihlášení do WR</title>
+    <style>
+        body {
+            font-size: large;
+            align-items: center;
+            text-align: center;
+            margin-top: 12%;
+            font-family: 'Optima', Arial, Helvetica, sans-serif;
+        }
+
+        .tlacitko {
+            padding: 10px 20px; 
+            font-size: 18px;
+            border-radius: 5px; 
+            border: 1px solid black; 
+            background-color: #0099ab; 
+            cursor: pointer;
+            margin-left: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .tlacitko:hover {
+            background-color: #005761; 
+        }
+
+        .kolonka {
+            padding: 10px 20px; 
+            font-size: 18px;
+            border-radius: 5px; 
+            border: 1px solid black; 
+            background-color: #a0d1d6; 
+            cursor: pointer;
+            margin-left: 5px;
+        }
+
+        /* Přihlašovací box */
+        .login-box {
+            position: relative;
+            display: inline-block;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top-right-radius: 20px;
+            border-bottom-left-radius: 20px;
+            margin-top: 10px;
+        }
+
+        /* L-tvary */
+        .login-box::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 5px solid #0099ab;
+        }
+
+        
+        .login-box::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border: 5px solid #a0d1d6;
+        }
+
+        /* Levý horní roh */
+        .login-box::before {
+            top: -5px;
+            left: -5px;
+            border-right: none;
+            border-bottom: none;
+        }
+
+        /* Pravý dolní roh */
+        .login-box::after {
+            bottom: -5px;
+            right: -5px;
+            border-left: none;
+            border-top: none;
+        }
+
+        #loading-spinner {
+            display: none; /* Skryté při načtení stránky */
+            width: 30px;
+            height: 30px;
+            border: 4px solid rgba(0, 0, 0, 0.3);
+            border-top: 4px solid black;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 10px auto;
+        }
+
+        @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+        }       
+    </style>
+</head>
+<body>
+    <div class="login-box">
+        <h1>Přihlášení do Wattrouteru</h1>
+        <div id="login-section">
+            <input class="kolonka" type="password" id="password-input" placeholder="Zadejte heslo" />
+            <button class="tlacitko" id="login-button">Přihlásit se</button>
+            <div id="loading-spinner"></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/crypto-js@4.1.1/crypto-js.min.js"></script>
+    <script>
+        let socket;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            socket = new WebSocket("ws://" + window.location.hostname + ":81");
+
+            socket.onopen = () => {
+                console.log("🟢 WebSocket připojen.");
+                const storedHash = localStorage.getItem("auth-token");
+                if (storedHash) {
+                    console.log("🔄 Odesílám uložený hash...");
+                    socket.send("AUTH|" + storedHash);
+                    document.getElementById("loading-spinner").style.display = "block";
+                }
+            };
+
+            socket.onmessage = (event) => {
+                console.log("📩 Přijatá zpráva:", event.data);
+
+                if (event.data === "AUTHORIZED") {
+                    console.log("✅ Přihlášení úspěšné! Odesílám HTTP GET na /app");
+                    fetch("/app", { method: "GET" })
+                        .then(response => {
+                            if (response.ok) {
+                                window.location.href = "/app";
+                            } else {
+                                console.log("❌ Chyba přesměrování na /app");
+                                showErrorMessage("Přihlášení selhalo.");
+                            }
+                        });
+                } else if (event.data === "Unauthorized") {
+                    console.log("❌ Nesprávné heslo!");
+                    showErrorMessage("Nesprávné heslo!");
+                    document.getElementById("loading-spinner").style.display = "none";
+                }
+            };
+
+            document.getElementById("login-button").onclick = () => {
+                const password = document.getElementById("password-input").value;
+                if (!password) return;
+
+                const hash = CryptoJS.SHA256(password).toString();
+                console.log("🔄 Odesílám hash: " + hash);
+                socket.send("AUTH|" + hash);
+                document.getElementById("loading-spinner").style.display = "block";
+
+                // Uložíme hash pro příště
+                localStorage.setItem("auth-token", hash);
+            };
+        });
+
+        function showErrorMessage(message) {
+            const errorElement = document.getElementById("error-message");
+            if (errorElement) {
+                errorElement.innerText = message;
+                errorElement.style.display = "block";
+            }
+        }
+
+        // 🛑 Umožníme odeslat heslo klávesou ENTER
+        document.getElementById("password-input").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                document.getElementById("login-button").click();
+            }
+        });
+    </script>
+
+</body>
+</html>

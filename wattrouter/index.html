@@ -6,12 +6,20 @@
     <title>Wattrouter</title>
     <style>
         body {
+            font-family: 'Optima', Arial, Helvetica, sans-serif;
             background-image: url('https://raw.githubusercontent.com/DrZaak/webovke/refs/heads/main/wattrouter/OldSolarist.jpg');
             background-size: cover;
             background-position: center;
-            background-color: rgba(255,255,255,0.8);
+            background-color: rgba(255,255,255,0.7);
             background-blend-mode: lighten;
         }
+
+        body.dark-mode {
+            background-color: rgba(0,0,0,0.8);
+            background-blend-mode: darken;
+	        color: white;
+        }
+
         .info-icon {
             display: inline-block;
             width: 20px;
@@ -98,136 +106,272 @@
 <body>
     <div class="titulek section-title">
         <h1 class="slim">Wattrouter</h1>
-        <p style="margin: 0px 4px;">Stav: <span class="ws-data" id="router-status">OK</span> Mód: <span class="ws-data" id="router-mode">Stock</span></p>
+        <p style="margin: 0px 4px;">Stav: <b><span class="ws-data" id="router-status">Loading</span></b> &emsp; | &emsp; Mód: <b><span class="ws-data" id="router-mode">Loading</span></b> &emsp; | &emsp; Příkaz: <b><span class="ws-data" id="server-message">Testovací hláška akce</span></b></p>
     </div>
     <div class="container">
         <div class="prehled">
             <h2 class="section-title" style="margin: 0px 4px;">Přehled</h2>
             <div class="modul">
                 <h3>Fotovoltaika</h3>
-                <p class="slim">Stav: <span class="ws-data" id="fv-status">Tma</span></p>
-                <p class="slim">Výkon: <span class="ws-data" id="fv-watt">0 W</span></p>
-                <p class="slim">A: <span class="ws-data" id="fv-amp">0.0</span></p>
-                <p class="slim">V: <span class="ws-data" id="fv-volt">0.0</span></p>
+                <p class="slim">Stav: <b><span class="ws-data" id="fv-status">Loading</span></b></p>
+                <p class="slim">Výkon: <b><span class="ws-data" id="fv-watt">0 W</span></b></p>
+                <p class="slim">A: <b><span class="ws-data" id="fv-amp">0.0</span></b></p>
+                <p class="slim">V: <b><span class="ws-data" id="fv-volt">0.0</span></b></p>
             </div>
             <div class="modul">
                 <h3>DS</h3>
-                <p class="slim">Stav: <span class="ws-data" id="ds-status">Tarif</span></p>
-                <p class="slim">Výkon: <span class="ws-data" id="ds-watt">0 W</span></p>
-                <p class="slim">A: <span class="ws-data" id="ds-amp">0.0</span></p>
-                <p class="slim">V: <span class="ws-data" id="ds-volt">0.0</span></p>
+                <p class="slim">Stav: <b><span class="ws-data" id="ds-status">Loading</span></b></p>
+                <p class="slim">Výkon: <b><span class="ws-data" id="ds-watt">0 W</span></b></p>
+                <p class="slim">A: <b><span class="ws-data" id="ds-amp">0.0</span></b></p>
+                <p class="slim">V: <b><span class="ws-data" id="ds-volt">0.0</span></b></p>
             </div>
             <div class="modul">
                 <h3>Baterie</h3>
-                <p class="slim">Stav: <span class="ws-data" id="bat-status">50%</span></p>
-                <p class="slim">Výkon: <span class="ws-data" id="bat-watt">0 W</span></p>
-                <p class="slim">A: <span class="ws-data" id="bat-amp">0.0</span></p>
-                <p class="slim">V: <span class="ws-data" id="bat-volt">0.0</span></p>
+                <p class="slim">Stav: <b><span class="ws-data" id="bat-status">Loading</span></b></p>
+                <p class="slim">Výkon: <b><span class="ws-data" id="bat-watt">0 W</span></b></p>
+                <p class="slim">A: <b><span class="ws-data" id="bat-amp">0.0</span></b></p>
+                <p class="slim">V: <b><span class="ws-data" id="bat-volt">0.0</span></b></p>
             </div>
         </div>
         <div class="okruhy">
             <h2 class="section-title">Okruhy</h2>
-            <div class="okruh">
-                <h3>1. Kuchyň | <span class="ws-data" id="kuchyn-watt">55</span> W</h3>
+            <div class="okruh" id="kuchyn-box">
+                <h3>1. Kuchyň | <span class="ws-data" id="kuchyn-watt">0</span> W  |  Zdroj: <span id="kuchyn-status">Neznámý</span></h3>
                 <button class="tlacitko" id="kuchyn-push-off">OFF</button><button class="tlacitko" id="kuchyn-push-fv">FV</button><button class="tlacitko" id="kuchyn-push-ds">DS</button><button class="tlacitko" id="kuchyn-push-boost">Boost</button>
             </div>
-            <div class="okruh">
-                <h3>2. Klima | <span class="ws-data" id="klima-watt">580</span> W</h3>
+            <div class="okruh" id="klima-box">
+                <h3>2. Klima | <span class="ws-data" id="klima-watt">0</span> W  |  Zdroj: <span id="klima-status">Neznámý</span></h3>
                 <button class="tlacitko" id="klima-push-off">OFF</button><button class="tlacitko" id="klima-push-fv">FV</button><button class="tlacitko" id="klima-push-ds">DS</button><button class="tlacitko" id="klima-push-boost">Boost</button>
             </div>
-            <div class="okruh">
-                <h3>3. Koupelna | <span class="ws-data" id="koupelna-watt">700</span> W</h3>
+            <div class="okruh" id="koupelna-box">
+                <h3>3. Koupelna | <span class="ws-data" id="koupelna-watt">0</span> W  |  Zdroj: <span id="koupelna-status">Neznámý</span></h3>
                 <button class="tlacitko" id="koupelna-push-off">OFF</button><button class="tlacitko" id="koupelna-push-fv">FV</button><button class="tlacitko" id="koupelna-push-ds">DS</button><button class="tlacitko" id="koupelna-push-boost">Boost</button>
             </div>
-            <div class="okruh">
-                <h3>4. Boiler | <span class="ws-data" id="boiler-watt">6972</span> W</h3>
+            <div class="okruh" id="boiler-box">
+                <h3>4. Boiler | <span class="ws-data" id="boiler-watt">0</span> W  |  Zdroj: <span id="boiler-status">Neznámý</span></h3>
                 <button class="tlacitko" id="boiler-push-off">OFF</button><button class="tlacitko" id="boiler-push-fv">FV</button><button class="tlacitko" id="boiler-push-ds">DS</button><button class="tlacitko" id="boiler-push-boost">Boost</button>
             </div>
         </div>
         <div class="prikazy">
             <h2 class="section-title">Příkazy</h2>
-            <div class="prikaz">
+            <div class="prikaz" id="auto">
                 <button class="tlacitko" id="push-auto">AUTO</button>
                 <span class="info-icon">i
                     <span class="tooltip">Automatická správa spotřeby, maximální využití FVe - plný výkon Solar + docuc z DS/Baterie</span>
                 </span>
             </div>
-            <div class="prikaz">
+            <div class="prikaz" id="zasobuj">
                 <button class="tlacitko" id="push-zasobuj">Zásobuj</button>
                 <span class="info-icon">i
                     <span class="tooltip">Prioritně využije výkon FVe pro nabití baterie - veškerá spotřeba na DS, dokud není baterie na 100%</span>
                 </span>
             </div>
-            <div class="prikaz">
+            <div class="prikaz" id="nepouzivejds">
                 <button class="tlacitko" id="push-nepouzivejds">Nepoužívej DS</button>
                 <span class="info-icon">i
                     <span class="tooltip">Až do vybití baterie je veškerá spotřeba brána z FVe, baterie + možný docuc měniče z DS</span>
                 </span>
             </div>
-            <div class="prikaz">
+            <div class="prikaz" id="tarifuj">
                 <button class="tlacitko" id="push-tarifuj">Tarifuj</button>
                 <span class="info-icon">i
                     <span class="tooltip">Pokud je nízký tarif, veškerá spotřeba jde z DS, FVe nabíjí baterii</span>
                 </span>
             </div>
-            <div class="prikaz">
+            <div class="prikaz" id="odpojfv">
                 <button class="tlacitko" id="push-odpojfv">Odpoj FV</button>
                 <span class="info-icon">i
                     <span class="tooltip">Odpojovač mechanicky odpojí FVe</span>
                 </span>
             </div>
-            <div class="prikaz">
+            <div class="prikaz" id="nemerbat">
+                <button class="tlacitko" id="push-nemerbat">Neměř Bat</button>
+                <span class="info-icon">i
+                    <span class="tooltip">Zákaže měření kapacity baterie pro úsporu energie</span>
+                </span>
+            </div>
+            <div class="prikaz" id="off">
                 <button class="tlacitko" id="push-off">OFF</button>
                 <span class="info-icon">i
                     <span class="tooltip">Vypne všechny okruhy</span>
                 </span>
             </div>
-        </div>
+            <div class="prikaz">
+                <button class="tlacitko" id="dark-mode-toggle">Dark Mode</button>
+                <span class="info-icon">i
+                    <span class="tooltip">Přepne tmavý/světlý režim stránky</span>
+                </span>
+            </div>
+            <div class="prikaz">
+                <button class="tlacitko" id="push-logout">Odhlásit</button>
+                <span class="info-icon">i
+                    <span class="tooltip">Odhlásí zařízení a smaže uložené heslo</span>
+                </span>
+            </div>
+        </div>           
     </div>
     <script>
-    const ESP_IP = "ws://192.168.1.100:81"; // Sem dáš IP ESP32 (změníme později)
-    let socket = new WebSocket(ESP_IP);
-    
-    // Připojení k WebSocket serveru
-    socket.onopen = function() {
-        console.log("✅ WebSocket připojen!");
+        document.getElementById('push-logout').onclick = () => {
+        localStorage.removeItem('auth-token'); //Smažeme uložený hash
+        window.location.reload(); // 🔄 Refresh stránky → vrátí na přihlašovací stránku
+        };
+
+        const darkModeEnabled = localStorage.getItem('dark-mode') === 'enabled';
+
+        // 2. Pokud byl Dark Mode zapnutý, aktivujeme ho při načtení stránky
+        if (darkModeEnabled) {
+            document.body.classList.add('dark-mode');
+        }
+
+        // 3. Přepínání režimu
+        document.getElementById("dark-mode-toggle").onclick = () => {
+            document.body.classList.toggle("dark-mode");
+
+            // 4. Uložíme stav do LocalStorage
+            if (document.body.classList.contains('dark-mode')) {
+                localStorage.setItem('dark-mode', 'enabled');
+            } else {
+                localStorage.setItem('dark-mode', 'disabled');
+            }
+        };
+            let socket;
+
+            function connectWebSocket() {
+                socket = new WebSocket("ws://" + window.location.hostname + ":81");
+
+                socket.onopen = () => {
+                    console.log("🟢 WebSocket připojen.");
+                };
+
+                socket.onclose = () => {
+                    console.log("🔴 WebSocket odpojen! Zkouším znovu připojit...");
+                    setTimeout(connectWebSocket, 1000); // Po 1s se zkusí připojit znovu
+                };
+            }
+
+            document.addEventListener("DOMContentLoaded", () => {
+                connectWebSocket();
+            });
+            
+            // Připojení k WebSocket serveru
+            socket.onopen = function() {
+                console.log("✅ WebSocket připojen!");
+            };
+            
+        // Přijetí zprávy (ESP32 posílá aktualizace hodnot)
+        socket.onmessage = function(event) {
+            let data = JSON.parse(event.data); // Předpokládáme JSON odpověď
+
+        // Aktualizace hodnot na stránce
+        document.getElementById("router-status").textContent = data.router_status;
+        document.getElementById("router-mode").textContent = data.router_mode;
+
+        document.getElementById("fv-status").textContent = data.fv_status;
+        document.getElementById("fv-watt").textContent = data.fv_watt;
+        document.getElementById("fv-amp").textContent = data.fv_amp;
+        document.getElementById("fv-volt").textContent = data.fv_volt;
+
+        document.getElementById("ds-status").textContent = data.ds_status;
+        document.getElementById("ds-watt").textContent = data.ds_watt;
+        document.getElementById("ds-amp").textContent = data.ds_amp ;
+        document.getElementById("ds-volt").textContent = data.ds_volt;
+
+        document.getElementById("bat-status").textContent = data.bat_status;
+        document.getElementById("bat-watt").textContent = data.bat_watt;
+        document.getElementById("bat-amp").textContent = data.bat_amp;
+        document.getElementById("bat-volt").textContent = data.bat_volt;
+
+        document.getElementById("kuchyn-watt").textContent = data.kuchyn_watt;
+        document.getElementById("klima-watt").textContent = data.klima_watt;
+        document.getElementById("koupelna-watt").textContent = data.koupelna_watt;
+        document.getElementById("boiler-watt").textContent = data.boiler_watt;
+        document.getElementById("kuchyn-status").textContent = data.kuchyn_status;
+        document.getElementById("klima-status").textContent = data.klima_status;
+        document.getElementById("koupelna-status").textContent = data.koupelna_status;
+        document.getElementById("boiler-status").textContent = data.boiler_status;
+        document.getElementById("server-message").textContent = data.server_message;
+
+        const kuchynBox = document.getElementById("kuchyn-box");
+        const status1 = data.kuchyn_status;
+
+        if (status1 === "FV") {
+            kuchynBox.style.backgroundColor = "rgba(0, 255, 0, 0.2)";  // Zelená pro FV
+        } else if (status1 === "DS") {
+            kuchynBox.style.backgroundColor = "rgba(0, 0, 255, 0.2)";  // Modrá pro DS
+        } else if (status1 === "Boost") {
+            kuchynBox.style.backgroundColor = "rgba(255, 255, 0, 0.2)";  // Zluta pro Boost
+        } else {
+            kuchynBox.style.backgroundColor = "rgba(255, 0, 0, 0.2)";  // Červená pro OFF
+        }
+
+        const klimaBox = document.getElementById("klima-box");
+        const status2 = data.klima_status;
+
+        if (status2 === "FV") {
+            klimaBox.style.backgroundColor = "rgba(0, 255, 0, 0.2)";  // Zelená pro FV
+        } else if (status2 === "DS") {
+            klimaBox.style.backgroundColor = "rgba(0, 0, 255, 0.2)";  // Modrá pro DS
+        } else if (status2 === "Boost") {
+            klimaBox.style.backgroundColor = "rgba(255, 255, 0, 0.2)";  // Zluta pro Boost
+        } else {
+            klimaBox.style.backgroundColor = "rgba(255, 0, 0, 0.2)";  // Červená pro OFF
+        }
+
+        const koupelnaBox = document.getElementById("koupelna-box");
+        const status3 = data.koupelna_status;
+
+        if (status3 === "FV") {
+            koupelnaBox.style.backgroundColor = "rgba(0, 255, 0, 0.2)";  // Zelená pro FV
+        } else if (status3 === "DS") {
+            koupelnaBox.style.backgroundColor = "rgba(0, 0, 255, 0.2)";  // Modrá pro DS
+        } else if (status3 === "Boost") {
+            koupelnaBox.style.backgroundColor = "rgba(255, 255, 0, 0.2)";  // Zluta pro Boost
+        } else {
+            koupelnaBox.style.backgroundColor = "rgba(255, 0, 0, 0.2)";  // Červená pro OFF
+        }
+
+        const boilerBox = document.getElementById("boiler-box");
+        const status4 = data.boiler_status;
+
+        if (status4 === "FV") {
+            boilerBox.style.backgroundColor = "rgba(0, 255, 0, 0.2)";  // Zelená pro FV
+        } else if (status4 === "DS") {
+            boilerBox.style.backgroundColor = "rgba(0, 0, 255, 0.2)";  // Modrá pro DS
+        } else if (status4 === "Boost") {
+            boilerBox.style.backgroundColor = "rgba(255, 255, 0, 0.2)";  // Zluta pro Boost
+        } else {
+            boilerBox.style.backgroundColor = "rgba(255, 0, 0, 0.2)";  // Červená pro OFF
+        }
+
+        const tlacitkoTarifuj = document.getElementById("tarifuj");
+        const stavTarifuj = data.tarifuj_status;
+        if(stavTarifuj == true) { tlacitkoTarifuj.style.backgroundColor = "rgba(0, 255, 0, 0.3)"; } else { tlacitkoTarifuj.style.backgroundColor = "rgba(255, 0, 0, 0.3)"; }
+
+        const tlacitkoZasobuj = document.getElementById("zasobuj");
+        const stavZasobuj = data.stockmode_status;
+        if(stavZasobuj == true) { tlacitkoZasobuj.style.backgroundColor = "rgba(0, 255, 0, 0.3)"; } else { tlacitkoZasobuj.style.backgroundColor = "rgba(255, 0, 0, 0.3)"; }
+
+        const tlacitkoNods = document.getElementById("nepouzivejds");
+        const stavNods = data.nodsmode_status;
+        if(stavNods == true) { tlacitkoNods.style.backgroundColor = "rgba(0, 255, 0, 0.3)"; } else { tlacitkoNods.style.backgroundColor = "rgba(255, 0, 0, 0.3)"; }
+
+        const tlacitkoAuto = document.getElementById("auto");
+        const stavAuto = data.automod_status;
+        if(stavAuto == true) { tlacitkoAuto.style.backgroundColor = "rgba(0, 255, 0, 0.3)"; } else { tlacitkoAuto.style.backgroundColor = "rgba(255, 0, 0, 0.3)"; }
+
+        const tlacitkoFVConnect = document.getElementById("odpojfv");
+        const stavFVConnect = data.fvconnect_status;
+        if(stavFVConnect == true) { tlacitkoFVConnect.style.backgroundColor = "rgba(0, 255, 0, 0.3)"; } else { tlacitkoFVConnect.style.backgroundColor = "rgba(255, 0, 0, 0.3)"; }
+
+        const tlacitkoBatMer = document.getElementById("nemerbat");
+        const stavBatMer = data.batmer_status;
+        if(stavBatMer == true) { tlacitkoBatMer.style.backgroundColor = "rgba(0, 255, 0, 0.3)"; } else { tlacitkoBatMer.style.backgroundColor = "rgba(255, 0, 0, 0.3)"; }
+
     };
-    
-    // Přijetí zprávy (ESP32 posílá aktualizace hodnot)
-    socket.onmessage = function(event) {
-    let data = JSON.parse(event.data); // Předpokládáme JSON odpověď
-
-    // Aktualizace hodnot na stránce
-    document.getElementById("router-status").textContent = data.router_status;
-    document.getElementById("router-mode").textContent = data.router_mode;
-
-    document.getElementById("fv-status").textContent = data.fv_status;
-    document.getElementById("fv-watt").textContent = data.fv_watt + " W";
-    document.getElementById("fv-amp").textContent = data.fv_amp + " A";
-    document.getElementById("fv-volt").textContent = data.fv_volt + " V";
-
-    document.getElementById("ds-status").textContent = data.ds_status;
-    document.getElementById("ds-watt").textContent = data.ds_watt + " W";
-    document.getElementById("ds-amp").textContent = data.ds_amp + " A";
-    document.getElementById("ds-volt").textContent = data.ds_volt + " V";
-
-    document.getElementById("bat-status").textContent = data.bat_status;
-    document.getElementById("bat-watt").textContent = data.bat_watt + " W";
-    document.getElementById("bat-amp").textContent = data.bat_amp + " A";
-    document.getElementById("bat-volt").textContent = data.bat_volt + " V";
-};
 
 // Ošetření chyb
 socket.onerror = function(error) {
     console.error("❌ WebSocket error:", error);
-};
-
-// Odpojení
-socket.onclose = function() {
-    console.log("⚠️ WebSocket odpojen. Zkouším znovu...");
-    setTimeout(() => {
-        socket = new WebSocket(ESP_IP);
-    }, 3000);
 };
 
 // Odeslání příkazu po kliknutí na tlačítko
@@ -241,20 +385,39 @@ function sendCommand(command) {
 }
 
 // Přiřazení funkcí tlačítkům
-document.getElementById("push-auto").onclick = () => sendCommand("AUTO");
-document.getElementById("push-zasobuj").onclick = () => sendCommand("ZASOBUJ");
-document.getElementById("push-nepouzivejds").onclick = () => sendCommand("NEPOUZIVEJ_DS");
-document.getElementById("push-tarifuj").onclick = () => sendCommand("TARIFUJ");
-document.getElementById("push-odpojfv").onclick = () => sendCommand("ODPOJ_FV");
-document.getElementById("push-off").onclick = () => sendCommand("OFF");
 
-document.getElementById("kuchyn-push-off").onclick = () => sendCommand("KUCHYN_OFF");
-document.getElementById("kuchyn-push-fv").onclick = () => sendCommand("KUCHYN_FV");
-document.getElementById("kuchyn-push-ds").onclick = () => sendCommand("KUCHYN_DS");
-document.getElementById("kuchyn-push-boost").onclick = () => sendCommand("KUCHYN_BOOST");
+	document.getElementById("push-auto").onclick = () => sendCommand("AUTO");
+        document.getElementById("push-zasobuj").onclick = () => sendCommand("ZASOBUJ");
+        document.getElementById("push-nepouzivejds").onclick = () => sendCommand("NEPOUZIVEJ_DS");
+        document.getElementById("push-tarifuj").onclick = () => sendCommand("TARIFUJ");
+        document.getElementById("push-odpojfv").onclick = () => sendCommand("ODPOJ_FV");
+        document.getElementById("push-off").onclick = () => sendCommand("OFF");
+        document.getElementById("push-nemerbat").onclick = () => sendCommand("NEMERBAT");
+
+        document.getElementById("kuchyn-push-off").onclick = () => sendCommand("KUCHYN_OFF");
+        document.getElementById("kuchyn-push-fv").onclick = () => sendCommand("KUCHYN_FV");
+        document.getElementById("kuchyn-push-ds").onclick = () => sendCommand("KUCHYN_DS");
+        document.getElementById("kuchyn-push-boost").onclick = () => sendCommand("KUCHYN_BOOST");
+
+        document.getElementById("klima-push-off").onclick = () => sendCommand("KLIMA_OFF");
+        document.getElementById("klima-push-fv").onclick = () => sendCommand("KLIMA_FV");
+        document.getElementById("klima-push-ds").onclick = () => sendCommand("KLIMA_DS");
+        document.getElementById("klima-push-boost").onclick = () => sendCommand("KLIMA_BOOST");
+
+        document.getElementById("koupelna-push-off").onclick = () => sendCommand("KOUPELNA_OFF");
+        document.getElementById("koupelna-push-fv").onclick = () => sendCommand("KOUPELNA_FV");
+        document.getElementById("koupelna-push-ds").onclick = () => sendCommand("KOUPELNA_DS");
+        document.getElementById("koupelna-push-boost").onclick = () => sendCommand("KOUPELNA_BOOST");
+
+        document.getElementById("boiler-push-off").onclick = () => sendCommand("BOILER_OFF");
+        document.getElementById("boiler-push-fv").onclick = () => sendCommand("BOILER_FV");
+        document.getElementById("boiler-push-ds").onclick = () => sendCommand("BOILER_DS");
+        document.getElementById("boiler-push-boost").onclick = () => sendCommand("BOILER_BOOST");
+
+        
 
 // Sem můžeš přidat další tlačítka pro ostatní okruhy...
-
+    document.onload = connectWebSocket();
 </script>
 
 </body>
